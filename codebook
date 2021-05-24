@@ -1,0 +1,45 @@
+This is my codebook for the run_anaylsis.r script.
+This file performs the preparement of the data and then does a  5 steps process.
+First you must download the dataset
+  you may do this by downloading and extracting under the folder UCI HAR Dataset
+Second  assign the data to specific variables
+  features <- features.txt : 561 rows, 2 columns
+  The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ.
+  activities <- activity_labels.txt : 6 rows, 2 columns
+  List of activities performed when the corresponding measurements were taken and its codes (labels)
+  subjecttest <- test/subjecttest.txt : 2947 rows, 1 column
+  contains test data of 9/30 volunteer test subjects being observed
+  xtest <- test/xtest.txt : 2947 rows, 561 columns
+  contains recorded features test data
+  ytest <- test/ytest.txt : 2947 rows, 1 columns
+  contains test data of activities’code labels
+  subjecttrain <- test/subject_train.txt : 7352 rows, 1 column
+  contains train data of 21/30 volunteer subjects being observed
+  xtrain <- test/xtrain.txt : 7352 rows, 561 columns
+  contains recorded features train data
+  ytrain <- test/ytrain.txt : 7352 rows, 1 columns
+  contains train data of activities’code labels
+The process starts with 
+step 1: Merge the training and the test sets to create one data set
+  xdatacomb(10299 rows, 561 columns) is created by combining xtrain and xtest using rbind() function
+  ydatacomb(10299 rows, 1 column) is created by combining ytrain and ytest using rbind() function
+  subjectcomb(10299 rows, 1 column) is created by combining subjecttrain and subjecttest using rbind() function
+  wholemerge (10299 rows, 563 column) is created by combining subjectcomb, ydatacomb and xdatacomb using cbind() function
+step 2: Extracts only the measurements on the mean and standard deviation for each measurement
+      tidydata (10299 rows, 88 columns) is created by subsetting wholemerge, selecting only columns: subject, code and the measurements on the mean and standard deviation (std) for each measurement
+step 3:Uses descriptive activity names to name the activities in the data set
+      All of the numbers in code column of the tidy are replaced with corresponding activity taken from second column of the activities variable
+step 4:you should Appropriately labels the data set with descriptive variable names
+      code column in tidydata renamed into activities
+      All Accel in column’s name replaced by Accelerometer
+      All Gyro in column’s name replaced by Gyroscope
+      All BodyBody in column’s name replaced by Body
+      All Magn in column’s name replaced by Magnitude
+      All start with character f in column’s name replaced by Frequency
+      All start with character t in column’s name replaced by Time
+ step 5: From the data set in step 4, you must creates a second, you create a independent tidy data set with the average of each variable for each activity and each subject
+      final (180 rows, 88 columns) is created by sumarizing tidydata taking the means of each variable for each activity and each subject, after groupped by subject and activity.
+      Export final into FinalData.txt file.
+
+
+ 
